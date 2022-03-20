@@ -124,6 +124,15 @@ type Channel struct {
 	ChannelType string `json:"channel_type"`
 }
 
+// DM
+type DirectMessage []struct {
+	ID            string   `json:"_id"`
+	ChannelType   string   `json:"channel_type"`
+	Active        bool     `json:"active"`
+	Recipients    []string `json:"recipients"`
+	LastMessageID string   `json:"last_message_id"`
+}
+
 type Role struct {
 	Name        string `json:"name"`
 	Permissions []int  `json:"permissions"`
@@ -155,6 +164,28 @@ type Member struct {
 	} `json:"avatar"`
 
 	Roles []string `json:"roles"`
+}
+
+type UserProfile struct {
+	Content string `json:"content"`
+
+	Background struct {
+		ID       string `json:"_id"`
+		Tag      string `json:"tag"`
+		Size     int    `json:"size"`
+		Filename string `json:"filename"`
+
+		Metadata struct {
+			Type string `json:"type"`
+		} `json:"metadata"`
+
+		ContentType string `json:"content_type"`
+	} `json:"background"`
+}
+
+type MutualFriendsAndServers struct {
+	Users   []string `json:"users"`
+	Servers []string `json:"servers"`
 }
 
 type Message struct {
@@ -248,6 +279,29 @@ type MessageSend struct {
 		Name   string `json:"name"`
 		Avatar string `json:"avatar"`
 	} `json:"masquerade,omitempty"`
+}
+
+type EditUser struct {
+	Status struct {
+		Text     string `json:"text,omitempty"`
+		Presence string `json:"presence,omitempty"`
+	} `json:"status,omitempty"`
+
+	Profile struct {
+		Content    string `json:"content,omitempty"`
+		Background string `json:"background,omitempty"`
+	} `json:"profile,omitempty"`
+
+	Avatar string `json:"avatar,omitempty"`
+	Remove string `json:"remove,omitempty"`
+}
+
+type EditChannel struct {
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Icon        string `json:"icon,omitempty"`
+	Nsfw        bool   `json:"nsfw,omitempty"`
+	Remove      string `json:"remove,omitempty"`
 }
 
 // Events / Handlers
