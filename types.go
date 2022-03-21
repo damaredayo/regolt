@@ -8,19 +8,19 @@ const ClearTypeBanner ClearType = "Banner"
 const ClearTypeColour ClearType = "Colour"
 
 func (c ClearType) IsIcon() bool {
-	return c == "Icon"
+	return c == ClearTypeIcon
 }
 
 func (c ClearType) IsDescription() bool {
-	return c == "Description"
+	return c == ClearTypeDescription
 }
 
 func (c ClearType) IsBanner() bool {
-	return c == "Banner"
+	return c == ClearTypeBanner
 }
 
 func (c ClearType) IsColour() bool {
-	return c == "Colour"
+	return c == ClearTypeColour
 }
 
 type RelationshipStatus string
@@ -33,30 +33,51 @@ const RelationshipNone RelationshipStatus = "None"
 const RelationshipOutgoing RelationshipStatus = "Outgoing"
 const RelationshipUser RelationshipStatus = "User"
 
-func (c ClearType) IsBlocked() bool {
-	return c == "Blocked"
+func (r RelationshipStatus) IsBlocked() bool {
+	return r == RelationshipBlocked
 }
 
-func (c ClearType) IsBlockedOther() bool {
-	return c == "BlockedOther"
+func (r RelationshipStatus) IsBlockedOther() bool {
+	return r == RelationshipBlockedOther
 }
 
-func (c ClearType) IsFriend() bool {
-	return c == "Friend"
+func (r RelationshipStatus) IsFriend() bool {
+	return r == RelationshipFriend
 }
 
-func (c ClearType) IsIncoming() bool {
-	return c == "Incoming"
+func (r RelationshipStatus) IsIncoming() bool {
+	return r == RelationshipIncoming
 }
 
-func (c ClearType) IsNone() bool {
-	return c == "None"
+func (r RelationshipStatus) IsNone() bool {
+	return r == RelationshipNone
 }
 
-func (c ClearType) IsOutgoing() bool {
-	return c == "Outgoing"
+func (r RelationshipStatus) IsOutgoing() bool {
+	return r == RelationshipOutgoing
 }
 
-func (c ClearType) IsUser() bool {
-	return c == "User"
+func (r RelationshipStatus) IsUser() bool {
+	return r == RelationshipUser
+}
+
+type ChannelType string
+
+const ChannelTypeText ChannelType = "Text"
+const ChannelTypeVoice ChannelType = "Voice"
+
+func (c ChannelType) IsText() bool {
+	return c == ChannelTypeText
+}
+
+func (c ChannelType) IsVoice() bool {
+	return c == ChannelTypeVoice
+}
+
+type RoleClearType string
+
+const RoleClearTypeColour RoleClearType = "Colour"
+
+func (r RoleClearType) IsColour() bool {
+	return r == RoleClearTypeColour
 }

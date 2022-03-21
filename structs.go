@@ -39,6 +39,19 @@ type User struct {
 	} `json:"bot,omitempty"`
 }
 
+type Categories struct {
+	ID       string   `json:"id"`
+	Title    string   `json:"title"`
+	Channels []string `json:"channels"`
+}
+
+type SystemMessages struct {
+	UserJoined string `json:"user_joined"`
+	UserLeft   string `json:"user_left"`
+	UserKicked string `json:"user_kicked"`
+	UserBanned string `json:"user_banned"`
+}
+
 // Server
 type Server struct {
 	ID          string   `json:"_id"`
@@ -47,18 +60,9 @@ type Server struct {
 	Description string   `json:"description"`
 	Channels    []string `json:"channels"`
 
-	Categories []struct {
-		ID       string   `json:"id"`
-		Title    string   `json:"title"`
-		Channels []string `json:"channels"`
-	} `json:"categories"`
+	Categories []*Categories `json:"categories"`
 
-	SystemMessages struct {
-		UserJoined string `json:"user_joined"`
-		UserLeft   string `json:"user_left"`
-		UserKicked string `json:"user_kicked"`
-		UserBanned string `json:"user_banned"`
-	} `json:"system_messages"`
+	SystemMessages *SystemMessages `json:"system_messages"`
 
 	Roles []Role `json:"roles"`
 
@@ -96,6 +100,24 @@ type Server struct {
 	Discoverable bool `json:"discoverable"`
 }
 
+type EditServer struct {
+	Name           string          `json:"name,omitempty"`
+	Description    string          `json:"description,omitempty"`
+	Icon           string          `json:"icon,omitempty"`
+	Banner         string          `json:"banner,omitempty"`
+	Categories     []*Categories   `json:"categories,omitempty"`
+	SystemMessages *SystemMessages `json:"system_messages,omitempty"`
+	Nsfw           bool            `json:"nsfw,omitempty"`
+	Remove         string          `json:"remove,omitempty"`
+}
+
+type EditMember struct {
+	Nickname string   `json:"nickname,omitempty"`
+	Avatar   string   `json:"avatar,omitempty"`
+	Roles    []string `json:"roles,omitempty"`
+	Remove   string   `json:"remove,omitempty"`
+}
+
 // Channel
 type Channel struct {
 	ID          string `json:"_id"`
@@ -122,6 +144,33 @@ type Channel struct {
 
 	Nsfw        bool   `json:"nsfw"`
 	ChannelType string `json:"channel_type"`
+}
+
+// Group
+type Group struct {
+	ID            string   `json:"_id"`
+	ChannelType   string   `json:"channel_type"`
+	Recipients    []string `json:"recipients"`
+	Name          string   `json:"name"`
+	Owner         string   `json:"owner"`
+	Description   string   `json:"description"`
+	LastMessageID string   `json:"last_message_id"`
+
+	Icon struct {
+		ID       string `json:"_id"`
+		Tag      string `json:"tag"`
+		Size     int    `json:"size"`
+		Filename string `json:"filename"`
+
+		Metadata struct {
+			Type string `json:"type"`
+		} `json:"metadata"`
+
+		ContentType string `json:"content_type"`
+	} `json:"icon"`
+
+	Permissions int  `json:"permissions"`
+	Nsfw        bool `json:"nsfw"`
 }
 
 // DM
@@ -213,34 +262,7 @@ type Message struct {
 		Date string `json:"$date"`
 	} `json:"edited"`
 
-	Embeds []struct {
-		Type string `json:"type"`
-		URL  string `json:"url"`
-
-		Special struct {
-			Type string `json:"type"`
-		} `json:"special"`
-
-		Title       string `json:"title"`
-		Description string `json:"description"`
-
-		Image struct {
-			URL    string `json:"url"`
-			Width  int    `json:"width"`
-			Height int    `json:"height"`
-			Size   string `json:"size"`
-		} `json:"image"`
-
-		Video struct {
-			URL    string `json:"url"`
-			Width  int    `json:"width"`
-			Height int    `json:"height"`
-		} `json:"video"`
-
-		SiteName string `json:"site_name"`
-		IconURL  string `json:"icon_url"`
-		Colour   string `json:"colour"`
-	} `json:"embeds"`
+	Embeds []*Embed `json:"embeds"`
 
 	Mentions []string `json:"mentions"`
 	Replies  []string `json:"replies"`
@@ -251,9 +273,43 @@ type Message struct {
 	} `json:"masquerade"`
 }
 
+type Embed struct {
+	Type string `json:"type"`
+	URL  string `json:"url"`
+
+	Special struct {
+		Type string `json:"type"`
+	} `json:"special"`
+
+	Title       string `json:"title"`
+	Description string `json:"description"`
+
+	Image struct {
+		URL    string `json:"url"`
+		Width  int    `json:"width"`
+		Height int    `json:"height"`
+		Size   string `json:"size"`
+	} `json:"image"`
+
+	Video struct {
+		URL    string `json:"url"`
+		Width  int    `json:"width"`
+		Height int    `json:"height"`
+	} `json:"video"`
+
+	SiteName string `json:"site_name"`
+	IconURL  string `json:"icon_url"`
+	Colour   string `json:"colour"`
+}
+
 type RestContent struct {
 	Type    string `json:"type"`
 	Content string `json:"content"`
+}
+
+type RoleCreated struct {
+	Id          string `json:"id"`
+	Permissions []int  `json:"permissions"`
 }
 
 type MessageSend struct {
@@ -302,6 +358,15 @@ type EditChannel struct {
 	Icon        string `json:"icon,omitempty"`
 	Nsfw        bool   `json:"nsfw,omitempty"`
 	Remove      string `json:"remove,omitempty"`
+}
+
+type Ban struct {
+	ID struct {
+		Server string `json:"server"`
+		User   string `json:"user"`
+	} `json:"_id"`
+
+	Reason string `json:"reason"`
 }
 
 // Events / Handlers
